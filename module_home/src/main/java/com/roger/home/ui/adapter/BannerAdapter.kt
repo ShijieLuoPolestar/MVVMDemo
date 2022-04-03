@@ -37,5 +37,6 @@ class BannerAdapter : RecyclerView.Adapter<BannerAdapter.ViewHolder>() {
         fun bind(item: HomeBanner) {
             binding.item = item
         }
+
     }
 }
