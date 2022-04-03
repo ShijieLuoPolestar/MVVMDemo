@@ -1,22 +1,18 @@
 package com.roger.home.ui.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.roger.home.R
 import com.roger.home.databinding.HomeItemBannerBinding
 import com.roger.repository.data.HomeBanner
 
-class BannerAdapter : RecyclerView.Adapter<BannerAdapter.BannerViewHolder>() {
+class BannerAdapter : RecyclerView.Adapter<BannerAdapter.ViewHolder>() {
+
     private var dataList: List<HomeBanner> = listOf()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = BannerViewHolder(
-        LayoutInflater.from(parent.context).inflate(R.layout.home_item_banner, parent, false)
-    )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder.from(parent)
 
-    override fun onBindViewHolder(holder: BannerViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(dataList[position])
     }
 
@@ -27,11 +23,19 @@ class BannerAdapter : RecyclerView.Adapter<BannerAdapter.BannerViewHolder>() {
         notifyDataSetChanged()
     }
 
-    inner class BannerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val mBinding = DataBindingUtil.bind<HomeItemBannerBinding>(itemView)!!
+    class ViewHolder private constructor(private val binding: HomeItemBannerBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item:HomeBanner) {
-            mBinding.item = item
+        companion object {
+            fun from(parent: ViewGroup): ViewHolder = ViewHolder(
+                HomeItemBannerBinding.inflate(
+                    LayoutInflater.from(parent.context), parent, false
+                )
+            )
+        }
+
+        fun bind(item: HomeBanner) {
+            binding.item = item
         }
     }
 }
